@@ -14,7 +14,7 @@ return [
     |
     */
 
-    'title' => 'SPK Monte Carlo',
+    'title' => 'Sistem Prediksi Penjualan',
     'title_prefix' => '',
     'title_postfix' => '',
 
@@ -45,7 +45,7 @@ return [
     |
     */
 
-    'logo' => '<b>SPK</b> Monte Carlo',
+    'logo' => '<b>Sistem</b> <sup>Prediksi Penjualan</sup>',
     'logo_img' => 'img/Logo-white.png',
     'logo_img_class' => 'brand-image img-circle elevation-3',
     'logo_img_xl' => null,
@@ -237,7 +237,7 @@ return [
         ],
         [
             'text'        => 'Dashboard',
-            'url'         => '/',
+            'url'         => '/admin/home',
             'icon'        => 'fas fa-fw fa-home',
         ],
         ['header' => 'Data Akun'],
@@ -258,29 +258,9 @@ return [
             'icon' => 'fas fa-fw fa-chart-bar',
         ],
         [
-            'text' => 'Angka Random',
-            'url'  => 'admin/angka-random',
-            'icon' => 'fas fa-fw fa-random',
-        ],
-        [
-            'text' => 'Prediksi Barang',
-            'url'  => 'admin/prediksi-barang',
-            'icon' => 'fas fa-fw fa-chart-line',
-        ],
-        [
-            'text' => 'Perhitungan Monte Carlo',
-            'url'  => 'admin/monte-carlo',
-            'icon' => 'fas fa-fw fa-wave-square',
-        ],
-        [
-            'text' => 'Grafik',
-            'url'  => 'admin/grafik',
-            'icon' => 'fas fa-fw fa-chart-pie',
-        ],
-        [
-            'text' => 'Bantuan',
-            'url'  => 'admin/bantuan',
-            'icon' => 'fas fa-fw fa-info-circle',
+            'text' => 'Prediksi Penjualan Barang',
+            'url'  => 'admin/penjualan-barang/analisa',
+            'icon' => 'ion ion-ios-analytics-outline',
         ],
     ],
 

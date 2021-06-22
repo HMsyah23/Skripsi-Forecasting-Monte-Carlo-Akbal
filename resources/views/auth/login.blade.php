@@ -3,7 +3,18 @@
 @section('auth_header', __('Silahkan Masukkan Email & Password'))
 
 @section('auth_body')
-    <form action="{{ __('#') }}" method="post">
+
+@if (Session::has('success'))
+                        <div class="alert alert-success">
+                            {{ Session::get('success') }}
+                        </div>
+                    @endif
+                    @if (Session::has('error'))
+                        <div class="alert alert-danger">
+                            {{ Session::get('error') }}
+                        </div>
+                    @endif
+    <form action="{{ route('auth.login') }}" method="post">
         {{ csrf_field() }}
 
         {{-- Email field --}}
@@ -42,8 +53,8 @@
         <div class="row">
             <div class="col-7">
                 <div class="icheck-primary">
-                    <input type="checkbox" name="remember" id="remember">
-                    <label for="remember">{{ __('Ingat Saya') }}</label>
+                    {{-- <input type="checkbox" name="remember" id="remember"> --}}
+                    {{-- <label for="remember">{{ __('Ingat Saya') }}</label> --}}
                 </div>
             </div>
             <div class="col-5">
