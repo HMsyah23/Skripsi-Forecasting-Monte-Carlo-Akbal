@@ -240,11 +240,14 @@ return [
             'url'         => '/admin/home',
             'icon'        => 'fas fa-fw fa-home',
         ],
-        ['header' => 'Data Akun'],
+        ['header' => 'Data Akun',
+        'can'  => 'admin',
+    ],
         [
             'text' => 'Data Pengguna',
             'url'  => 'admin/pengguna',
             'icon' => 'fas fa-fw fa-users',
+            'can'  => 'admin',
         ],
         ['header' => 'Data Sistem'],
         [
@@ -261,6 +264,11 @@ return [
             'text' => 'Prediksi Penjualan Barang',
             'url'  => 'admin/penjualan-barang/analisa',
             'icon' => 'ion ion-ios-analytics-outline',
+        ],
+        [
+            'text' => 'Logout',
+            'url'  => 'admin/logout',
+            'icon' => 'fas fa-sign-out-alt fa-flip-horizontal',
         ],
     ],
 

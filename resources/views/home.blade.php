@@ -53,6 +53,7 @@
           </div>
       </div>
         <!-- ./col -->
+        @if (Auth::user()->role == 0)
         <div class="col-lg-3 col-6">
           <!-- small box -->
           <div class="small-box bg-secondary">
@@ -67,6 +68,7 @@
             <a href="{{route('pengguna')}}" class="small-box-footer">Detail <i class="fas fa-arrow-circle-right"></i></a>
           </div>
         </div>
+        @endif
         <!-- ./col -->
         
         <!-- ./col -->

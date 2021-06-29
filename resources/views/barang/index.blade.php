@@ -6,8 +6,10 @@
     <div class="row justify-content-between">
       <h1> <i class="fas fa-shopping-bag ml-2"></i> Data Barang</h1>
       <div class="d-flex justify-content-end">
-      <button class="btn btn-success mr-2" data-toggle="modal" data-target="#tambahModal"> <i class="fas fa-plus-circle"></i> Tambah Data</button>
-      <a href="{{route('laporan.barang.aja')}}" class="btn btn-success mr-2"> <i class="fas fa-file-pdf"></i> Cetak Laporan Seluruh Barang</a>
+      <a href="{{route('barang.buat')}}" class="btn btn-success mr-2"> <i class="fas fa-plus-circle"></i> Tambah Data</a>
+      @if (Auth::user()->role == 0)
+        <a href="{{route('laporan.barang.aja')}}" class="btn btn-success mr-2"> <i class="fas fa-file-pdf"></i> Cetak Laporan Seluruh Barang</a>
+      @endif
       </div>
     </div>
 @stop
@@ -260,13 +262,13 @@
   $(function () {
     //Initialize Select2 Elements
     $("select").select2({
-      tags: true
+      tags: true,
     });
 
     //Initialize Select2 Elements
     $('.select2bs4').select2({
       theme: 'bootstrap4',
-      tags: true
+      tags: true,
     })
   })
 </script>

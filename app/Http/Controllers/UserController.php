@@ -21,8 +21,6 @@ class UserController extends Controller
         return view('user.index', compact('users'));
     }
 
-    
-
     public function create()
     {
         //
@@ -31,18 +29,25 @@ class UserController extends Controller
     public function store(Request $request)
     {
         $data = $request->except('_method','_token','submit');
-      $validator = Validator::make($request->all(), [
-         'name'  => 'required|string|min:4|max:50',
-         'email' => 'required|unique:users|email|max:50',
-         'role'  => 'required',
-         'password' => 'required|string',
-      ]);
+        $validator = Validator::make($request->all(), [
+            'name'  => 'required|string|min:4|max:50',
+            'email' => 'required|unique:users|email|max:50',
+            'role'  => 'required',
+            'password' => 'required|string',
+        ]);
 
       if ($validator->fails()) {
          return redirect()->Back()->withInput()->withErrors($validator);
       }
 
-      if($record = User::firstOrCreate($data)){
+      $user = new User;
+        $user->name = $request->name;
+        $user->role = $request->role;
+        $user->email = strtolower($request->email);
+        $user->password = Hash::make($request->password);
+        $simpan = $user->save();
+
+      if($simpan){
          Session::flash('success', 'Data Berhasil Ditambahkan!');
          Session::flash('alert-class', 'alert-success');
          return redirect()->route('pengguna');

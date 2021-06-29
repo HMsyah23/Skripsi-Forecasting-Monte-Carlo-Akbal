@@ -31,6 +31,7 @@ Route::group(['prefix' => 'admin','middleware' => 'auth'], function () {
 
     Route::get('barang', 'BarangController@index')->name('barang');
     Route::post('barang', 'BarangController@store')->name('barang.store');
+    Route::get('barang/buat', 'BarangController@buat')->name('barang.buat');
     Route::get('barang/{id}', 'BarangController@show')->name('barang.show');
     Route::post('barang/{id}', 'BarangController@update')->name('barang.update');
     Route::post('hapus/barang/{id}', 'BarangController@destroy')->name('barang.destroy');
@@ -64,7 +65,7 @@ Route::group(['prefix' => 'admin','middleware' => 'auth'], function () {
         return view('home');
     })->name('home');
     Route::get('logout', 'AuthController@logout')->name('logout');
- 
+    
 });
 
 Route::get('/welcome', function () {

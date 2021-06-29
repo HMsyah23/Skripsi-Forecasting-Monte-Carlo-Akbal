@@ -6,7 +6,9 @@
     <div class="row justify-content-between">
       <h1> <i class="fas fa-chart-bar ml-2"></i> Detail Perhitungan Penjualan Barang</h1>
       <div class="d-flex justify-content-end">
-        <a href="{{route('laporan.barang')}}" class="btn btn-success mr-2"> <i class="fas fa-file-pdf"></i> Cetak Laporan Seluruh Barang</a>
+        @if (Auth::user()->role == 0)
+          <a href="{{route('laporan.barang')}}" class="btn btn-success mr-2"> <i class="fas fa-file-pdf"></i> Cetak Laporan Seluruh Barang</a>    
+        @endif
         {{-- <a href="{{route('analisa')}}" class="btn btn-success mr-2"> <i class="fas fa-info"></i> Analisa</a> --}}
       </div>
     </div>

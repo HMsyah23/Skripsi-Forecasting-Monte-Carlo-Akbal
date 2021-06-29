@@ -76,9 +76,11 @@
                       </table>
                     </div>
                   </div>
+                  @if (Auth::user()->role == 0)
                   <div class="card-tools">
                     <a href="{{route('laporan.Cbarang',$barang->kode_barang)}}" class="btn btn-primary"> <i class="fas fa-file-pdf"></i> Cetak Laporan</a>
                   </div>
+                  @endif
                   @endif
           @endforeach
         @endforeach

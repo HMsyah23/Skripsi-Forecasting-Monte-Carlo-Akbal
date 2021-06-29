@@ -21,6 +21,14 @@ class BarangController extends Controller
         return view('barang.index', compact('barangs'));
     }
 
+    public function buat()
+    {
+        $barangs = Barang::all();
+        $kode = Barang::orderBy('kode_barang', 'desc')->first();
+        $kode = substr($kode->kode_barang,1,3) + 1;
+        $kode = 'B'.$kode;
+        return view('barang.create', compact('barangs','kode'));
+    }
     
 
     public function create()
