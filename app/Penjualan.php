@@ -3,7 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Barang;
+use App\Barang,App\StokBarang;
 
 class Penjualan extends Model
 {
@@ -11,6 +11,10 @@ class Penjualan extends Model
     public $timestamps = false;
 
     public function barang(){
+        return $this->belongsTo(Barang::class,'kode_barang','kode_barang');
+    }
+
+    public function stokBarang(){
         return $this->belongsTo(Barang::class,'kode_barang','kode_barang');
     }
 

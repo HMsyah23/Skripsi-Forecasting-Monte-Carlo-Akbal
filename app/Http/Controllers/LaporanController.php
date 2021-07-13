@@ -3,9 +3,10 @@
 namespace App\Http\Controllers;
 
 use PDF;
-use App\Barang;
-use App\Penjualan;
+use Storage;
+use App\StokBarang,App\Barang,App\Penjualan;
 use Illuminate\Http\Request;
+use Session;
 
 class LaporanController extends Controller
 {
@@ -13,6 +14,18 @@ class LaporanController extends Controller
 		$penjualans = Penjualan::all()->groupBy('kode_barang');
         $bars= Barang::all();
         $data = $penjualans->toArray();
+
+        foreach ($data as $item => $barangs) {
+            foreach ($bars as $barang) {
+                if ($barang->kode_barang == $item) {
+                    if($barang->stokBarangs->isEmpty()){
+                        Session::flash('message', 'Terjadi Kesalahan, Terdapat Data Yang Belum Distok');
+                        Session::flash('alert-class', 'alert-danger');
+                        return Back();
+                    }
+                }
+            }
+        }
         foreach ($data as $item => $barangs) {
             $jum = 0;
             $tot = 0;
@@ -37,10 +50,12 @@ class LaporanController extends Controller
             $i = 0;
             $j = 0;
             // Variabel Angka Acak
-            $a=14;
-            $c=21;
-            $Z=22;
-            $m=66;
+            $json = Storage::disk('public')->get('parameter.json');
+            $param = json_decode($json, true);
+            $a=$param['parameter']['a'];
+            $c=$param['parameter']['c'];
+            $Z=$param['parameter']['z'];
+            $m=$param['parameter']['m'];
             $dat = $a * $Z+$c;
             // Variabel Angka Acak
 
@@ -117,10 +132,12 @@ class LaporanController extends Controller
             $i = 0;
             $j = 0;
             // Variabel Angka Acak
-            $a=14;
-            $c=21;
-            $Z=22;
-            $m=66;
+            $json = Storage::disk('public')->get('parameter.json');
+            $param = json_decode($json, true);
+            $a=$param['parameter']['a'];
+            $c=$param['parameter']['c'];
+            $Z=$param['parameter']['z'];
+            $m=$param['parameter']['m'];
             $dat = $a * $Z+$c;
             // Variabel Angka Acak
 
@@ -180,6 +197,22 @@ class LaporanController extends Controller
         // dd($pengajars);
 
         $pdf = PDF::setOptions(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true])->loadView('laporan.barangAja',compact('bars','base64'))
+        // ->setOptions(['isPhpEnabled' => true])
+        ->setPaper('a4', 'portrait');
+        return $pdf->stream();
+	}
+
+    public function laporanBarangStok(){
+        $stokBarangs= StokBarang::all()->groupBy('periode');    
+
+        $path = 'images/logo.jpg';
+        $type = pathinfo($path, PATHINFO_EXTENSION);
+        $datas = file_get_contents($path);
+        $base64 = 'data:image/' . $type . ';base64,' . base64_encode($datas);
+
+        // dd($pengajars);
+
+        $pdf = PDF::setOptions(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true])->loadView('laporan.barangStok',compact('stokBarangs','base64'))
         // ->setOptions(['isPhpEnabled' => true])
         ->setPaper('a4', 'portrait');
         return $pdf->stream();

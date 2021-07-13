@@ -14,7 +14,7 @@ return [
     |
     */
 
-    'title' => 'Sistem Prediksi Penjualan',
+    'title' => 'Aplikasi Prediksi Penjualan',
     'title_prefix' => '',
     'title_postfix' => '',
 
@@ -45,7 +45,7 @@ return [
     |
     */
 
-    'logo' => '<b>Sistem</b> <sup>Prediksi Penjualan</sup>',
+    'logo' => '<b>Aplikasi</b> <sup>Prediksi Stok</sup>',
     'logo_img' => 'img/Logo-white.png',
     'logo_img_class' => 'brand-image img-circle elevation-3',
     'logo_img_xl' => null,
@@ -145,7 +145,7 @@ return [
     */
 
     'sidebar_mini' => true,
-    'sidebar_collapse' => false,
+    'sidebar_collapse' => true,
     'sidebar_collapse_auto_size' => false,
     'sidebar_collapse_remember' => false,
     'sidebar_collapse_remember_no_transition' => true,
@@ -187,7 +187,7 @@ return [
     */
 
     'use_route_url' => false,
-    'dashboard_url' => 'home',
+    'dashboard_url' => 'admin/home',
     'logout_url' => 'logout',
     'login_url' => 'login',
     'register_url' => 'register',
@@ -228,7 +228,13 @@ return [
             // 'text' => 'search',
             // 'search' => true,
             'topnav' => true,
-            
+        ],
+        [
+            'text' => 'Parameter Angka Acak',
+            'url'  => 'admin/random',
+            'icon' => 'fas fa-fw fa-random',
+            'topnav' => true,
+            'can'  => 'admin',
         ],
         [
             'text' => 'blog',
@@ -242,7 +248,7 @@ return [
         ],
         ['header' => 'Data Akun',
         'can'  => 'admin',
-    ],
+        ],
         [
             'text' => 'Data Pengguna',
             'url'  => 'admin/pengguna',
@@ -253,6 +259,11 @@ return [
         [
             'text' => 'Data Barang',
             'url'  => 'admin/barang',
+            'icon' => 'fas fa-fw fa-shopping-bag',
+        ],
+        [
+            'text' => 'Data Stok Barang',
+            'url'  => 'admin/stok',
             'icon' => 'fas fa-fw fa-shopping-bag',
         ],
         [

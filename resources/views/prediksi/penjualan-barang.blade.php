@@ -15,33 +15,51 @@
 @stop
 
 @section('content')
+<div class="alert alert-info"> <i class="fas fa-info"></i> Data yang diprediksi hanya data yang sudah lengkap .
+  <p>Kriteria Data Yang Sudah Lengkap :</p>
+<ol>
+  <li>Data Penjualan dari tgl 1 s/d tgl 30-31 sudah terisi seluruhnya</li>
+  <li>Stok Barang dari data yang diprediksi sudah diinputkan sebelumnya</li>
+</ol>
+</div>    
+
+@if (Session::has('message'))
+              <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <strong>{{ Session::get('message') }}</strong>
+                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+              </div>
+          @endif
+
     <div class="row">
       <div class="col">
         <div class="card">
           <div class="card-header">
             <h3 class="card-title">Hasil Analisis Data Barang</h3>
-            {{-- <div class="card-tools">
+            <div class="card-tools">
               <div class="form-group">
-                <select class="form-control form-control-sm" id="barangSelect">
-                  @foreach ($bars as $barang)
-                  <option
-                  @if ($barang->kode_barang === 'B001')
-                    selected
-                  @endif
-                  value="{{$barang->kode_barang}}">{{ $barang->jenis_barang.' '.
-                  $barang->merk.' '.
-                  $barang->varian.' '.
-                  $barang->isi.' '.
-                  $barang->satuan}}</option> 
-                  @endforeach
+                <select class="form-control" name="periode" id="periodeSelect">
+                  <option @if (Carbon\Carbon::now()->format('m') == 1) selected @endif value="1">Januari</option>
+                  <option @if (Carbon\Carbon::now()->format('m') == 2) selected @endif value="2">Februari</option>                    
+                  <option @if (Carbon\Carbon::now()->format('m') == 3) selected @endif value="3">Maret</option>
+                  <option @if (Carbon\Carbon::now()->format('m') == 4) selected @endif value="4">April</option>
+                  <option @if (Carbon\Carbon::now()->format('m') == 5) selected @endif value="5">Mei</option>
+                  <option @if (Carbon\Carbon::now()->format('m') == 6) selected @endif value="6">Juni</option>
+                  <option @if (Carbon\Carbon::now()->format('m') == 7) selected @endif value="7">Juli</option>
+                  <option @if (Carbon\Carbon::now()->format('m') == 8) selected @endif value="8">Agustus</option>
+                  <option @if (Carbon\Carbon::now()->format('m') == 9) selected @endif value="9">September</option>
+                  <option @if (Carbon\Carbon::now()->format('m') == 10) selected @endif value="10">Oktober</option>
+                  <option @if (Carbon\Carbon::now()->format('m') == 11) selected @endif value="11">November</option>
+                  <option @if (Carbon\Carbon::now()->format('m') == 12) selected @endif value="12">Desember</option>
                 </select>
               </div>
-            </div> --}}
+            </div>
           </div>
           <!-- /.card-header -->
           <div class="card-body">
             <div class="form-group">
-              <select class="form-control" id="barangSelect">
+              <select class="form-control" name="barang" id="barangSelect">
                 @foreach ($bars as $barang)
                 <option
                 @if ($barang->kode_barang === 'B001')
@@ -55,6 +73,11 @@
                 @endforeach
               </select>
             </div>
+            <div class="col mb-1" id="spinner" style="visibility: hidden">
+            <button type="button" name="btn-enviar" class="btn btn-primary w-100">
+            <span class="spinner spinner-border spinner-border-sm mr-3" role="status" aria-hidden="true">
+            </span>Tunggu Sebentar...  Sedang Memproses Data</button>
+          </div>
             <div id="dataTable"></div>
           </div>
           <!-- /.card-body -->
@@ -136,21 +159,36 @@
       }
   });
 
-  function loadDataTable(x){
+  
+  function loadDataTable(x,periode){
       $.ajax({
-          url: 'getDataBarang/'+x,
+          url: 'getDataBarang/'+periode+'/'+x,
           success:function(data){
               $('#dataTable').html(data);
-          }
+              let spinner = document.getElementById("spinner");
+              spinner.style.visibility = 'hidden';
+          },
+            beforeSend: function(){
+              let spinner = document.getElementById("spinner");
+              spinner.style.visibility = 'visible';
+          },
       })
   }
 
-  loadDataTable('B001');
+  let periode = $('#periodeSelect').val();
+
+  loadDataTable('B001',periode);
 
   $(document).ready(function(){
   $('#barangSelect').change(function(){
     var id = $(this).val();
-    loadDataTable(id);
+    let periode = $('#periodeSelect').val();
+    loadDataTable(id,periode);
+  });
+  $('#periodeSelect').change(function(){
+    var id = $('#barangSelect').val();
+    let periode = $(this).val();
+    loadDataTable(id,periode);
   });
 });
 

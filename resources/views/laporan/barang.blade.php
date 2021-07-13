@@ -123,6 +123,10 @@
                     </tr> 
                   @endif
                   <tr>
+                    <td>Stok Awal Barang</td>
+                    <td>{{$barang->stokBarangs[0]['stok_awal'] }} / {{ $barang->isi.' '. $barang->satuan}}</td>
+                  </tr> 
+                  <tr>
                     <td>Total Barang Terjual Bulan Ini</td>
                     <td>{{$barangs['jumlah']}} / {{ $barang->isi.' '. $barang->satuan}}</td>
                   </tr> 
@@ -138,6 +142,14 @@
                     <td>Prediksi Pendapatan Untuk Satu Bulan Kedepan</td>
                     <td>@currency($barangs['prediksi_barang'] * $barang->harga)</td>
                   </tr> 
+                  <tr>
+                    <td><strong>Sisa Stok Bulan Ini</strong></td>
+                    <td>{{$barang->stokBarangs[0]['tersisa']}} / {{ $barang->isi.' '. $barang->satuan}}</td>
+                  </tr> 
+                  <tr>
+                    <td><strong>Prediksi Stok Barang yang harus disediakan Untuk Satu Bulan Kedepan</strong></td>
+                    <td><strong>{{($barang->stokBarangs[0]['tersisa']) + $barangs['prediksi_barang']}}</strong> / {{ $barang->isi.' '. $barang->satuan}}</td>
+                  </tr>  
                 </tbody>
               </table>
             </div>

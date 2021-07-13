@@ -9,6 +9,36 @@
 @section('content')
     <p class="alert alert-info"> <i class="fas fa-info"></i> Selamat Datang pada Halaman Utama Sistem Prediksi Jumlah Penjualan Barang dengan metode monte carlo.</p>
     <div class="row">
+      <div class="col">
+        @if (Session::has('success'))
+          <div class="alert alert-success alert-dismissible fade show" role="alert">
+              <strong>{{ Session::get('success') }}</strong>
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+          @endif
+          @if (Session::has('message'))
+              <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <strong>{{ Session::get('message') }}</strong>
+                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+              </div>
+          @endif
+          @if (Session::has('errors'))
+              <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                  @foreach ($errors->all() as $error)
+                  <li>{{ $error }}</li>
+                  @endforeach
+                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+              </div>
+          @endif 
+      </div>
+    </div>
+    <div class="row">
         <div class="col-lg-3 col-6">
           <!-- small box -->
           <div class="small-box bg-primary">
@@ -21,6 +51,20 @@
               <i class="ion ion-bag"></i>
             </div>
             <a href="{{route('barang')}}" class="small-box-footer">Detail <i class="fas fa-arrow-circle-right"></i></a>
+          </div>
+        </div>
+        <div class="col-lg-3 col-6">
+          <!-- small box -->
+          <div class="small-box bg-purple">
+            <div class="inner">
+              {{-- <h3>150</h3> --}}
+
+              <p>Data Stok Barang</p>
+            </div>
+            <div class="icon">
+              <i class="ion ion-bag"></i>
+            </div>
+            <a href="{{route('stok')}}" class="small-box-footer">Detail <i class="fas fa-arrow-circle-right"></i></a>
           </div>
         </div>
         <!-- ./col -->

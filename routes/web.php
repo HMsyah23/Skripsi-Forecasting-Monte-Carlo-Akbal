@@ -30,15 +30,24 @@ Route::group(['prefix' => 'admin','middleware' => 'auth'], function () {
 
 
     Route::get('barang', 'BarangController@index')->name('barang');
+    Route::get('stok', 'StokBarangController@index')->name('stok');
     Route::post('barang', 'BarangController@store')->name('barang.store');
+    Route::post('stok', 'StokBarangController@store')->name('stok.store');
     Route::get('barang/buat', 'BarangController@buat')->name('barang.buat');
+    Route::get('stok/buat', 'StokBarangController@buat')->name('stok.buat');
     Route::get('barang/{id}', 'BarangController@show')->name('barang.show');
+    Route::get('stok/{id}', 'StokBarangController@show')->name('stok.show');
     Route::post('barang/{id}', 'BarangController@update')->name('barang.update');
+    Route::post('stok/{id}', 'StokBarangController@update')->name('stok.update');
+    Route::post('penjualan', 'PenjualanController@store')->name('simpanPenjualan');
     Route::post('hapus/barang/{id}', 'BarangController@destroy')->name('barang.destroy');
+    Route::post('hapus/stokBarang/{id}', 'StokBarangController@destroy')->name('stok.destroy');
 
     Route::get('penjualan-barang', 'PenjualanController@index')->name('penjualan-barang');
+    Route::get('penjualan-barang/reset', 'PenjualanController@reset')->name('reset');
     Route::post('import-data-penjualan', 'PenjualanController@import')->name('import.data-penjualan');
     Route::get('penjualan-barang/analisa', 'PenjualanController@analisa')->name('analisa');
+    Route::get('penjualan-barang/tambahData', 'PenjualanController@tambahData')->name('tambahData');
 
     Route::get('angka-random', function () {
         return view('angka-random');
@@ -60,13 +69,20 @@ Route::group(['prefix' => 'admin','middleware' => 'auth'], function () {
         return view('bantuan');
     })->name('bantuan');
 
-    Route::get('penjualan-barang/getDataBarang/{id}', 'PenjualanController@getBarang')->name('getBarang');
+    Route::get('penjualan-barang/getDataBarang/{periode}/{id}', 'PenjualanController@getBarang')->name('getBarang');
+    Route::get('stok/getDataStok/{id}', 'StokBarangController@getStok')->name('getStok');
+    Route::get('penjualan/getDataPenjualan/{id}', 'PenjualanController@getPenjualan')->name('getPenjualan');
     Route::get('home', function () {
         return view('home');
     })->name('home');
-    Route::get('logout', 'AuthController@logout')->name('logout');
-    
+
+    Route::get('random', 'UserController@parameter')->name('parameter');
+    Route::post('stok', 'UserController@storeParam')->name('parameter.store');
+    Route::get('/logout', 'AuthController@logout');
+
 });
+Route::post('logout', 'AuthController@logout')->name('logout');
+
 
 Route::get('/welcome', function () {
     return view('welcome');
@@ -79,3 +95,4 @@ Route::get('barangs/export/', 'PenjualanController@export');
 	Route::get('/laporan/barang/{id}','LaporanController@laporanBarang')->name('laporan.Cbarang');
 	Route::get('/laporan/barang','LaporanController@laporanSeluruhBarang')->name('laporan.barang');
 	Route::get('/laporan/barangAja','LaporanController@laporanBarangAja')->name('laporan.barang.aja');
+	Route::get('/laporan/barangStok','LaporanController@laporanBarangStok')->name('laporan.barang.stok');

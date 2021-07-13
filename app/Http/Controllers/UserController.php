@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\User;
 use App\Penjualan;
 use Hash;
+use Storage;
 use App\Imports\BarangsImport;
 use App\Imports\PenjualanImport;
 use App\Exports\BarangsExport;
@@ -95,6 +96,30 @@ class UserController extends Controller
         return view('user.show', compact('user','users'));
     }
 
+    public function parameter()
+    {
+
+        $json = Storage::disk('public')->get('parameter.json');
+        $param = json_decode($json, true);
+        return view('user.parameter',compact('param'));
+    }
+
+    public function storeParam(Request $r)
+    {
+        $json = Storage::disk('public')->get('parameter.json');
+        $param = json_decode($json, true);
+        $param['parameter']['a'] = intval($r->a);
+        $param['parameter']['c'] = intval($r->c);
+        $param['parameter']['z'] = intval($r->z);
+        $param['parameter']['m'] = intval($r->m);
+        
+        $newJsonString = json_encode($param);
+        // dd($newJsonString);
+        file_put_contents('parameter.json', $newJsonString);
+        Session::flash('success', 'Parameter Angka Acak Berhasil Diperbarui!');
+        Session::flash('alert-class', 'alert-success');
+        return redirect()->route('home');
+    }
 
     public function edit(Barang $barang)
     {

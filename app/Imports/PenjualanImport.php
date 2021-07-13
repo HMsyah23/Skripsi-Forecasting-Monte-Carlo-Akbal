@@ -4,22 +4,17 @@ namespace App\Imports;
 
 use App\Penjualan;
 use Carbon;
-use Maatwebsite\Excel\Concerns\ToModel;
-use Maatwebsite\Excel\Concerns\WithHeadingRow;
+use Maatwebsite\Excel\Concerns\WithMultipleSheets;
 
-class PenjualanImport implements ToModel, WithHeadingRow
+
+class PenjualanImport implements WithMultipleSheets
 {
-    /**
-    * @param array $row
-    *
-    * @return \Illuminate\Database\Eloquent\Model|null
-    */
-    public function model(array $row)
+    public function sheets(): array
     {
-        return new Penjualan([
-            'kode_barang'     => $row['kode_barang'],
-            'tanggal'  => Carbon\Carbon::instance(\PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($row['tanggal'])),
-            'terjual'  => $row['terjual'],
-        ]);
+        return [
+            0 => new DataPenjualanImport(),
+        ];
     }
+
+    
 }

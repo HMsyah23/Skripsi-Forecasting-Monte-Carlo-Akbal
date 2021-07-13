@@ -43,6 +43,7 @@
                   <th>#</th>
                   <th>Nama</th>
                   <th>Email</th>
+                  <th>Peran</th>
                   <th>Aksi</th>
                 </tr>
                 </thead>
@@ -52,6 +53,11 @@
                     <td>{{$loop->iteration}}</td>
                     <td>{{$user->name}}</td>
                     <td>{{$user->email}}</td>
+                    @if ($user->role == 0)
+                      <td>Pemilik</td>
+                    @else
+                      <td>Pegawai</td>
+                    @endif
                     <td>
                       <div class="d-flex">
                         <button class="btn btn-sm btn-primary mr-1 mb-1" data-toggle="modal" data-target="#exampleModal-{{$user->id}}"><i class="fas fa-eye" ></i></button>
@@ -76,6 +82,13 @@
                               <ul>
                                 <li>Nama   : {{$user->name}}</li>
                                 <li>Email  : {{$user->email}}</li>
+                                <li>Peran  : 
+                                  @if ($user->role == 0)
+                                      Pemilik
+                                  @else
+                                      Pegawai
+                                  @endif
+                                </li>
                               </ul>
                         </div>
                         <div class="modal-footer">

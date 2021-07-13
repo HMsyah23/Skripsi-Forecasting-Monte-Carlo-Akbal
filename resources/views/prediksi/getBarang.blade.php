@@ -19,6 +19,27 @@
     </tr>    
   </tbody>
 </table>
+@elseif ($kurang)
+<table class="table table-bordered table-striped table-responsive-xl">
+  <thead class="bg-primary">
+    <tr>
+      <th>Tanggal</th>
+      <th>Terjual</th>
+      <th>Probabiltias</th>
+      <th>Kumulatif</th>
+      <th>Interval</th>
+      <th>Angka Acak</th>
+      <th>Prediksi</th>
+    </tr>      
+  </thead>
+  <tbody>
+    <tr class="text-center">
+      <th colspan="7">
+        Tidak Dapat Menganlisa Data, Data Penjualan Belum Lengkap
+      </th>
+    </tr>    
+  </tbody>
+</table>
 @else
 <div class="row">
   <div class="col text-center">
@@ -35,7 +56,7 @@
                   </h3>
                   <h5> Harga : <strong>@currency($barang->harga)</strong> Per {{ $barang->isi.' '. $barang->satuan}}</h5>
                   <div class="row justify-content-center">
-                    <div class="col-xl-4">
+                    <div class="col-xl-6">
                       <table class="table table-sm table-bordered" id="example1">
                         <tbody>
                           <tr>
@@ -57,6 +78,10 @@
                             </tr> 
                           @endif
                           <tr>
+                            <td>Stok Awal Barang</td>
+                            <td>{{$barang->stokBarangs[0]['stok_awal'] }} / {{ $barang->isi.' '. $barang->satuan}}</td>
+                          </tr> 
+                          <tr>
                             <td>Total Barang Terjual Bulan Ini</td>
                             <td>{{$barangs['jumlah']}} / {{ $barang->isi.' '. $barang->satuan}}</td>
                           </tr> 
@@ -71,6 +96,14 @@
                           <tr>
                             <td>Prediksi Pendapatan Untuk Satu Bulan Kedepan</td>
                             <td>@currency($barangs['prediksi_barang'] * $barang->harga)</td>
+                          </tr> 
+                          <tr>
+                            <td><strong>Sisa Stok Bulan Ini</strong></td>
+                            <td>{{$barang->stokBarangs[0]['tersisa']}}</td>
+                          </tr> 
+                          <tr>
+                            <td><strong>Prediksi Stok Barang yang harus disediakan Untuk Satu Bulan Kedepan</strong></td>
+                            <td><strong>{{($barang->stokBarangs[0]['tersisa']) + $barangs['prediksi_barang']}}</strong></td>
                           </tr> 
                         </tbody>
                       </table>
@@ -90,8 +123,8 @@
   </div>
 </div>
 <div class="row">
-  <div class="col-8">
-    <table class="table table-sm table-bordered table-striped table-responsive-sm">
+  <div class="col-lg-8">
+    <table class="table table-sm table-bordered table-striped table-responsive-lg">
       <thead class="bg-primary">
         <tr>
           <th>Tanggal</th>
@@ -131,8 +164,8 @@
       </tbody>
     </table>
   </div>
-  <div class="col-4">
-    <table class="table table-sm table-bordered table-striped table-responsive-xl">
+  <div class="col-lg-4">
+    <table class="table table-sm table-bordered table-striped">
       <thead class="bg-primary">
         <tr class="text-center">
           <th colspan="3">Prediksi Barang Terjual Pada Bulan Berikutnya</th>
