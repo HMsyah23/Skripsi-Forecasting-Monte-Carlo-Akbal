@@ -257,10 +257,9 @@ class PenjualanController extends Controller
         $penjualans = Penjualan::all()->groupBy('kode_barang');
         $bars = barang::all();
         $data = $penjualans->toArray();
-
+        
         $var = '43 - 425';
         $ex = explode( '-', $var );
-
         foreach ($data as $item => $barangs) {
             $jum = 0;
             $tot = 0;
@@ -326,14 +325,11 @@ class PenjualanController extends Controller
         
         }
 
-        // dd($data);
-
         return view('prediksi.penjualan-barang',compact('bars','data'));
     }
 
 
     public function getBarang($periode,$kode_barang){
-
         $penjualans = Penjualan::where('kode_barang',$kode_barang)->whereMonth('tanggal',$periode)->get()->groupBy('kode_barang');
         
         $barang = Penjualan::where('kode_barang',$kode_barang)->whereMonth('tanggal',$periode)->first();
@@ -405,6 +401,7 @@ class PenjualanController extends Controller
         
         }
         $kurang = false;
+        
         if ($penjualans->isEmpty()) {
             return view('prediksi.getBarang',compact('kurang','bars','data'));
         }
@@ -414,7 +411,33 @@ class PenjualanController extends Controller
             return view('prediksi.getBarang',compact('kurang','bars','data'));
         }
 
+        if($periode >= 12){
+            $nextMonth = 1;
+        } else{
+            $nextMonth = $periode + 1;
+        }
+        $stok = StokBarang::where('kode_barang',$kode_barang)->where('periode',$periode)->first();
         
+        if(StokBarang::where('kode_barang',$kode_barang)->where('periode',$nextMonth)->exists()){
+            $tersedia = StokBarang::where('kode_barang',$kode_barang)->where('periode',$nextMonth)->first();
+            $sisa = StokBarang::where('kode_barang',$kode_barang)->where('periode',$nextMonth)->first()->tersisa;
+            if ($tersedia->stok_awal == $sisa) {
+                $tersedia->update([
+                    'kode_barang'   => $kode_barang,
+                    'stok_awal'     => $data[$kode_barang]['prediksi_barang'] + $stok->tersisa,
+                    'tersisa'       => $data[$kode_barang]['prediksi_barang'] + $stok->tersisa,
+                    'periode'       => $nextMonth,
+                ]);
+            } 
+        }else {
+            $barang = StokBarang::create([
+                'kode_barang'   => $kode_barang,
+                'stok_awal'     => $data[$kode_barang]['prediksi_barang'] + $stok->tersisa,
+                'tersisa'       => $data[$kode_barang]['prediksi_barang'] + $stok->tersisa,
+                'periode'       => $nextMonth,
+            ]);
+        }
+
         return view('prediksi.getBarang',compact('kurang','bars','data'));
     }
 
